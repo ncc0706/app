@@ -1,0 +1,59 @@
+
+server:
+  port: 7001
+
+spring:
+
+  application:
+    name: dashboard
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    subfix: .html
+    mode: HTML5
+    encoding: UTF-8
+    contentType: text/html
+    cache: false
+  
+  ## 数据库访问配置
+  datasource:
+    url: jdbc:mysql:///app
+    username: root
+    password: ${password}
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    
+    ## 连接池配置
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    # 超时时间
+    maxWait: 60000
+    
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    minEvictableIdleTimeMillis: 300000
+    
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    
+    # 打开PSCache，并且指定每个连接上PSCache的大小
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    
+    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙 
+    filters: stat,wall,log4j
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;config.decrypt=true;config.decrypt.key=${publicKey}
+
+# mybatis config
+mybatis:
+  typeAliasesPackage: com.xlinyu.model
+  mapperLocations: classpath:com/xlinyu/mapping/*.xml
+
+# java -cp druid-1.0.29.jar com.alibaba.druid.filter.config.ConfigTools 0x8800
+privateKey: MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEAsuMtfm10vxdEe+ZqqaN+lU9jlYCZLsUZ2Rrhgr+M9PVPpARrFwJEzLB7E5JQ5+58Wii9pges4WA7vzugp583NQIDAQABAkEAhmPbYrayVXkSbw6MpUL5rwxEYSWKbzOOFqd2MbbcG44FKxpE2tqv3x7ACcUugC9Qoteeb4qAsMdmm894A52cgQIhAP85MrMe4iJiemw3/X0Qq1Ueb+4i4oOtfRr+IqGxz8LVAiEAs26E3pSabz6WwNicfCtXDYlJmzbfjFH/Urc31IgKEuECIAWGrIVaVtUdwr7TG4b4tGz8YroKQVNOj1XlSMStf+0dAiA2Rzt4XXmuJz/RTHVh9nZaCOq0QlAzkWZsLjJ8Xz604QIhANmZqVp+yJvlTau4wEYD7VjmBeo1eR3fk0ycZvPfCPgc
+publicKey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALLjLX5tdL8XRHvmaqmjfpVPY5WAmS7FGdka4YK/jPT1T6QEaxcCRMywexOSUOfufFoovaYHrOFgO787oKefNzUCAwEAAQ==
+password: quim5729vUjDqJJ/ofBtXd861r5bUiQc0HlU5MdJ7XX/s3mLDnDI33Kdlgl5sSUNHmFEogjD9Qp1AsAAEiB5MQ==
